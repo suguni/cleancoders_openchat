@@ -1,35 +1,33 @@
 package integration;
 
 import com.eclipsesource.json.JsonObject;
-import integration.dsl.UserDSL.ITUser;
-import org.junit.Before;
-import org.junit.Test;
+import integration.dsl.OpenChatTestDSL;
+import integration.dsl.UserDSL;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static integration.APITestSuit.BASE_URL;
-import static integration.dsl.OpenChatTestDSL.register;
-import static integration.dsl.UserDSL.ITUserBuilder.aUser;
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.CoreMatchers.is;
 
-public class IT_LoginAPI {
+public class IT_LoginAPI extends APITestBase {
 
-    private static ITUser ANTONY = aUser().withUsername("Antony").build();
+    private static UserDSL.ITUser ANTONY = UserDSL.ITUserBuilder.aUser().withUsername("Antony").build();
 
-    @Before
+    @BeforeEach
     public void initialise() {
-        ANTONY = register(ANTONY);
+        ANTONY = OpenChatTestDSL.register(ANTONY);
     }
 
     @Test public void
     perform_login() {
-        given()
+        RestAssured.given()
                 .body(withJsonContaining(ANTONY.username(), ANTONY.password()))
         .when()
                 .post(BASE_URL + "/login")
         .then()
                 .statusCode(200)
-                .contentType(JSON)
+                .contentType(ContentType.JSON)
                 .body("id", is(ANTONY.id()))
                 .body("username", is(ANTONY.username()))
                 .body("about", is(ANTONY.about()));

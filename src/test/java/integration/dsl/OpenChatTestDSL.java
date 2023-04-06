@@ -4,8 +4,6 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import integration.dsl.PostDSL.ITPost;
-import integration.dsl.UserDSL.ITUser;
 import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +12,16 @@ import java.util.List;
 
 import static integration.APITestSuit.DATE_PATTERN;
 import static integration.APITestSuit.UUID_PATTERN;
-import static integration.dsl.UserDSL.ITUserBuilder.aUser;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.matchesPattern;
+import static integration.dsl.UserDSL.ITUserBuilder.aUser;
+
+import integration.dsl.UserDSL.*;
+import integration.dsl.PostDSL.*;
 
 public class OpenChatTestDSL {
 
